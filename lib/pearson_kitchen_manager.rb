@@ -45,7 +45,7 @@ protected
     # (e.g. true) so wrap in an array prior to parsing
     response = JSON.parse('['+response.body+']').first
 
-    if response = "Access Denied"
+    if response == "Access Denied"
       raise "Error from Pearson Kitchen Manager API: #{response}"
     end
 
