@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["dss.shapiro@gmail.com"]
   gem.description   = %q{API wrapper for Pearson Kitchen Manager}
   gem.summary       = %q{API wrapper for Pearson Kitchen Manager}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/dsshap/pearson_kitchen_manager"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
