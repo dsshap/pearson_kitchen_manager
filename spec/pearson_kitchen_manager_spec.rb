@@ -21,11 +21,11 @@ describe PearsonKitchenManager do
 
   context 'recipes' do
 
-    # it 'should get recipes' do
-    #   pkm = PearsonKitchenManager.new
-    #   response = pkm.recipes
-    #   response['results'].count.should eq(10)
-    # end
+    it 'should get recipes' do
+      pkm = PearsonKitchenManager.new
+      response = pkm.recipes
+      response['results'].count.should eq(10)
+    end
 
     it 'should get a recipe' do
       pkm = PearsonKitchenManager.new

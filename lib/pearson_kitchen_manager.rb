@@ -4,7 +4,7 @@ require 'cgi'
 
 class PearsonKitchenManager
   include HTTParty
-  debug_output $stderr
+  # debug_output $stderr
 
   format :plain
   default_timeout 30
