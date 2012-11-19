@@ -4,7 +4,10 @@ require 'cgi'
 
 class PearsonKitchenManager
   include HTTParty
-  # debug_output $stderr
+
+  if ENV['RAILS_ENV'] == 'development'
+    debug_output $stderr
+  end
 
   format :plain
   default_timeout 30
