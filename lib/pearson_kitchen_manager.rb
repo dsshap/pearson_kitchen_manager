@@ -39,11 +39,11 @@ protected
     if params.keys.include?(:url_extension)
       api_url << "/" << params.delete(:url_extension)
     end
-    
-    params = @default_params.merge(params)
-    response = self.class.get(api_url, :query => params.collect{|k, v| HTTParty::HashConversions.normalize_param(k, v)}.join(), :timeout => @timeout)
 
-    
+    params = @default_params.merge(params)
+    response = self.class.get(api_url, :query => params.collect{|k, v| normalize_param(k, v)}.join(), :timeout => @timeout)
+
+
     # Some calls (e.g. recipes) return json fragments
     # (e.g. true) so wrap in an array prior to parsing
     response = JSON.parse('['+response.body+']').first
@@ -53,6 +53,31 @@ protected
     end
 
     response
+  end
+
+  def normalize_param(key, value)
+    param = ''
+    stack = []
+
+    if value.is_a?(Array)
+      param << Hash[*(0...value.length).to_a.zip(value).flatten].map {|i,element| normalize_param("#{key}[#{i}]", element)}.join
+    elsif value.is_a?(Hash)
+      stack << [key,value]
+    else
+      param << "#{key}=#{URI.encode(value.to_s, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))}&"
+    end
+
+    stack.each do |parent, hash|
+      hash.each do |key, value|
+        if value.is_a?(Hash)
+          stack << ["#{parent}[#{key}]", value]
+        else
+          param << normalize_param("#{parent}[#{key}]", value)
+        end
+      end
+    end
+
+    param
   end
 
   def method_missing(method, *args)
@@ -70,7 +95,7 @@ protected
   end
 
 end
-  
+
 
 module HTTParty
   module HashConversions

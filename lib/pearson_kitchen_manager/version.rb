@@ -1,3 +1,3 @@
-module PearsonKitchenManager
-  VERSION = "0.0.4"
+class PearsonKitchenManager
+  VERSION = "0.0.5"
 end
